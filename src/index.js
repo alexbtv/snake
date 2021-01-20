@@ -3,9 +3,9 @@ import "./assets/styles/styles.scss";
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
-const speed = 800;
+const speed = 900;
 
-const gridElem = 40; //20*20
+const gridElem = 10; //500*500
 const snake = [
   [9, 9],
   [8, 9],
@@ -42,7 +42,7 @@ window.addEventListener("keydown", (event) => {
 
 const drawMap = () => {
   ctx.fillStyle = "black";
-  ctx.fillRect(0, 0, 800, 800);
+  ctx.fillRect(0, 0, 500, 500);
 };
 
 const drawSnake = () => {
@@ -67,9 +67,9 @@ const drawScore = () => {
 
 const gameOver = () => {
   if (
-    snake[0][0] > 19 ||
+    snake[0][0] > 49 ||
     snake[0][0] < 0 ||
-    snake[0][1] > 19 ||
+    snake[0][1] > 49 ||
     snake[0][1] < 0
   ) {
     return true;
@@ -119,8 +119,8 @@ const updateSnakePosition = () => {
 const generateApple = () => {
   score++;
   const [x, y] = [
-    Math.trunc(Math.random() * 19),
-    Math.trunc(Math.random() * 19),
+    Math.trunc(Math.random() * 49),
+    Math.trunc(Math.random() * 49),
   ];
   apple = [x, y];
   for (let body of snake) {
