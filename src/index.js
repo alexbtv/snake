@@ -5,7 +5,7 @@ const ctx = canvas.getContext("2d");
 
 const scoreArea= document.querySelector(".score");
 const bestScoreArea= document.querySelector(".best-score");
-
+const startGame=document.querySelector(".btn-start");
 
 const speed = 900;
 
@@ -63,8 +63,10 @@ const drawApple = () => {
 };
 
 const drawScore = () => {
-  scoreArea.innerHTML=`<h1>score</h1>
-  <p>Your score : ${score}</p>`;
+  scoreArea.innerHTML=`<h1>SCORE</h1>
+  <p>${score}</p>
+  <h3>Speed</h3>
+  <p>1</p>`;
   /*ctx.fillStyle = "blue";
   ctx.font = "40px sans-serif";
   ctx.textBaseLine = "top";
@@ -72,7 +74,7 @@ const drawScore = () => {
 };
 
 const drawBestScore = () => {
-  bestScoreArea.innerHTML=`<h1>Best Score</h1>
+  bestScoreArea.innerHTML=`<h1>BEST SCORES</h1>
   <ul>
   <li>Alex : 800</li>
   <li>Alex : 600</li>
@@ -160,5 +162,12 @@ const move = () => {
   }*/
 };
 
+
+drawMap();
+drawScore();
 drawBestScore();
-requestAnimationFrame(move);
+
+startGame.addEventListener('click', ()=>{
+  requestAnimationFrame(move);
+});
+

@@ -11,10 +11,11 @@
   display: flex;
   flex-direction: column;
   background-image: url(/src/assets/images/polar-lights-5858656_1920.jpg);
+  padding: 3em;
   header {
     height: 150px;
     text-align: center;
-    padding: 3rem;
+    padding-bottom: 3rem;
   }
   .game-container {
     display: flex;
@@ -26,9 +27,18 @@
       padding: 3rem;
       border: 5px solid var(--text);
       min-height: 502px;
+      text-align: center;
+      line-height: 5rem;
+      p{
+        font-size: 1.4rem;
+      }
     }
     .best-score {
-      ul li{
+      h1{
+        text-align: center;
+      line-height: 5rem;
+      }
+      ul li {
         padding: 1rem;
       }
       border: 5px solid var(--text);
@@ -44,5 +54,25 @@
         border: 1px solid black;
       }
     }
+  }
+  .play {
+    padding: 3rem;
+    text-align: center;
+    button {
+      background-color: var(--primary); /* Green */
+      border-radius: 0.5rem;
+      border: 1px solid white;
+      color: white;
+      padding: 0.5rem 3rem;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+    }
+  }
+
+  footer {
+    text-align: center;
+    font-size: 1.2rem;
   }
 }
