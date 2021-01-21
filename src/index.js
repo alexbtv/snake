@@ -3,6 +3,10 @@ import "./assets/styles/styles.scss";
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
+const scoreArea= document.querySelector(".score");
+const bestScoreArea= document.querySelector(".best-score");
+
+
 const speed = 900;
 
 const gridElem = 10; //500*500
@@ -59,10 +63,22 @@ const drawApple = () => {
 };
 
 const drawScore = () => {
-  ctx.fillStyle = "blue";
+  scoreArea.innerHTML=`<h1>score</h1>
+  <p>Your score : ${score}</p>`;
+  /*ctx.fillStyle = "blue";
   ctx.font = "40px sans-serif";
   ctx.textBaseLine = "top";
-  ctx.fillText(`score : ${score}`,gridElem,gridElem);
+  ctx.fillText(`score : ${score}`,gridElem,gridElem);*/
+};
+
+const drawBestScore = () => {
+  bestScoreArea.innerHTML=`<h1>Best Score</h1>
+  <ul>
+  <li>Alex : 800</li>
+  <li>Alex : 600</li>
+  <li>Laet : 550</li>
+  <li>Emma : 540</li>
+  </ul>`;
 };
 
 const gameOver = () => {
@@ -117,7 +133,7 @@ const updateSnakePosition = () => {
 };
 
 const generateApple = () => {
-  score++;
+  score = score + 10 ;
   const [x, y] = [
     Math.trunc(Math.random() * 49),
     Math.trunc(Math.random() * 49),
@@ -139,9 +155,10 @@ const move = () => {
     setTimeout(() => {
       requestAnimationFrame(move);
     }, 1000 - speed);
-  } else {
+  }/* else {
     alert("Perdu !");
-  }
+  }*/
 };
 
+drawBestScore();
 requestAnimationFrame(move);

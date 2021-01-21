@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin'); 
+const copyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: {
@@ -18,13 +19,43 @@ module.exports = {
         use: ["babel-loader"]
       },
       {
-        test: /\.scss$/i,
-        use: ["style-loader", "css-loader", "sass-loader"]
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          {
+            loader: "style-loader"
+          },
+          {
+            loader: "css-loader"
+          },
+          {
+            loader: "postcss-loader"
+          },
+          {
+            loader: "sass-loader"
+          }
+        ]
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg)$/,
+        use: [
+          {
+            loader: "file-loader"
+          }
+        ]
       }
     ]
   },
   plugins: [
     new CleanWebpackPlugin(),
+    new copyWebpackPlugin({
+      patterns: [ 
+        {
+          from : "./src/assets/images/*",
+          to : "assets/images",
+          flatten : true
+        },
+      ]
+    }),
     new HtmlWebpackPlugin({
       filename:"index.html",
       template:path.join(__dirname, "./src/index.html"),

@@ -5,7 +5,44 @@
 @import "utils";
 @import "base";
 
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-image: url(/src/assets/images/polar-lights-5858656_1920.jpg);
+  header {
+    height: 150px;
+    text-align: center;
+    padding: 3rem;
+  }
+  .game-container {
+    display: flex;
+    flex-direction: row nowrap;
+    justify-content: center;
+    align-items: flex-start;
+    .score {
+      width: 300px;
+      padding: 3rem;
+      border: 5px solid var(--text);
+      min-height: 502px;
+    }
+    .best-score {
+      ul li{
+        padding: 1rem;
+      }
+      border: 5px solid var(--text);
+      min-height: 502px;
+    }
 
-canvas {
-  border: 1px solid black;
+    .canvas-container {
+      display: flex;
+      justify-content: center;
+
+      flex: 2 1 auto;
+      canvas {
+        border: 1px solid black;
+      }
+    }
+  }
 }
