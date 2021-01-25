@@ -3,14 +3,22 @@ import "./assets/styles/styles.scss";
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
-const scoreArea= document.querySelector(".score");
-const bestScoreArea= document.querySelector(".best-score");
-const startGame=document.querySelector(".btn-start");
+const scoreArea = document.querySelector(".score");
+const bestScoreArea = document.querySelector(".best-score");
+const startGame = document.querySelector(".btn-start");
 
-const speed = 900;
+const breakGame = document.createElement('button');
+breakGame.classList.add('btn-stop');
+breakGame.innerText="BREAK";
+
+let inProgress=0;
+
+const play=document.querySelector(".play");
+
+let speed = 900;
 
 const gridElem = 10; //500*500
-const snake = [
+let snake = [
   [9, 9],
   [8, 9],
   [7, 9],
@@ -21,6 +29,9 @@ let apple = [5, 5];
 let direction = "e";
 
 let score = 0;
+
+let requestId = null;
+
 
 window.addEventListener("keydown", (event) => {
   console.log(event);
@@ -63,18 +74,14 @@ const drawApple = () => {
 };
 
 const drawScore = () => {
-  scoreArea.innerHTML=`<h1>SCORE</h1>
+  scoreArea.innerHTML = `<h1>SCORE</h1>
   <p>${score}</p>
   <h3>Speed</h3>
   <p>1</p>`;
-  /*ctx.fillStyle = "blue";
-  ctx.font = "40px sans-serif";
-  ctx.textBaseLine = "top";
-  ctx.fillText(`score : ${score}`,gridElem,gridElem);*/
 };
 
 const drawBestScore = () => {
-  bestScoreArea.innerHTML=`<h1>BEST SCORES</h1>
+  bestScoreArea.innerHTML = `<h1>BEST SCORES</h1>
   <ul>
   <li>Alex : 800</li>
   <li>Alex : 600</li>
@@ -120,6 +127,7 @@ const updateSnakePosition = () => {
     }
     case "n": {
       head = [snake[0][0], snake[0][1] - 1];
+
       break;
     }
   }
@@ -135,7 +143,7 @@ const updateSnakePosition = () => {
 };
 
 const generateApple = () => {
-  score = score + 10 ;
+  score = score + 10;
   const [x, y] = [
     Math.trunc(Math.random() * 49),
     Math.trunc(Math.random() * 49),
@@ -148,26 +156,71 @@ const generateApple = () => {
   }
 };
 
-const move = () => {
-  if (!updateSnakePosition()) {
-    drawMap();
-    drawSnake();
-    drawApple();
-    drawScore();
-    setTimeout(() => {
-      requestAnimationFrame(move);
-    }, 1000 - speed);
-  }/* else {
-    alert("Perdu !");
-  }*/
+const initCanvas = () => {
+  drawMap();
+  drawSnake();
+  drawApple();
+  drawScore();
+  drawBestScore();
 };
 
+const move = () => {
 
-drawMap();
-drawScore();
-drawBestScore();
+  if (!updateSnakePosition() && inProgress===0) {
+    initCanvas();
+    setTimeout(() => {
+      requestId = requestAnimationFrame(move);
+    }, 1000 - speed);
+  } else if (!updateSnakePosition() && inProgress===1) {
+    window.cancelAnimationFrame(requestId);
+  } else {
+    alert("Perdu !");
+    reinitGame();
+  }
+};
 
-startGame.addEventListener('click', ()=>{
-  requestAnimationFrame(move);
+const reinitGame= ()=>{
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  initCanvas();
+  snake = [
+    [9, 9],
+    [8, 9],
+    [7, 9],
+  ];
+  
+  apple = [5, 5];
+  
+  direction = "e";
+  
+  score = 0;
+  deleteBreakButton();
+}
+
+initCanvas();
+
+const deleteBreakButton = ()=>{ 
+  play.removeChild(breakGame);
+  play.append(startGame)
+};
+
+const addBreakButton = ()=> {
+  inProgress=0;
+  play.append(breakGame);
+  breakGame.addEventListener("click", (event2) => {
+    event2.stopImmediatePropagation();
+    inProgress=1;
+    console.log(startGame);
+    deleteBreakButton();
+  })
+  play.removeChild(startGame);
+}
+
+
+startGame.addEventListener("click", (event) => {
+  addBreakButton();
+
+
+    /*ctx.clearRect(0, 0, canvas.width, canvas.height);*/
+
+    requestId = requestAnimationFrame(move);
 });
-
