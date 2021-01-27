@@ -1,4 +1,7 @@
 import "./assets/styles/styles.scss";
+import {toto} from './assets/javascripts/fruits';
+
+import img from './assets/images/pomme.png';
 
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
@@ -6,6 +9,14 @@ const ctx = canvas.getContext("2d");
 const scoreArea = document.querySelector(".score");
 const bestScoreArea = document.querySelector(".best-score");
 const startGame = document.querySelector(".btn-start");
+
+const appleImg = new Image();
+appleImg.src=img;
+
+appleImg.onload = ()=>{
+  //ctx.drawImage(appleImg, apple[0] * gridElem,apple[1] * gridElem, gridElem,gridElem);
+}
+
 
 const breakGame = document.createElement('button');
 breakGame.classList.add('btn-stop');
@@ -17,7 +28,7 @@ const play=document.querySelector(".play");
 
 let speed = 900;
 
-const gridElem = 10; //500*500
+const gridElem = 20; //500*500
 let snake = [
   [9, 9],
   [8, 9],
@@ -62,6 +73,7 @@ const drawMap = () => {
 
 const drawSnake = () => {
   ctx.fillStyle = "green";
+
   for (let body of snake) {
     ctx.fillRect(body[0] * gridElem, body[1] * gridElem, gridElem, gridElem);
   }
@@ -69,8 +81,10 @@ const drawSnake = () => {
 
 const drawApple = () => {
   console.log("je suis la");
-  ctx.fillStyle = "red";
-  ctx.fillRect(apple[0] * gridElem, apple[1] * gridElem, gridElem, gridElem);
+  //ctx.fillStyle = "red";
+ // ctx.fillRect(apple[0] * gridElem, apple[1] * gridElem, gridElem, gridElem);
+
+    ctx.drawImage(appleImg, apple[0] * gridElem,apple[1] * gridElem, gridElem,gridElem);
 };
 
 const drawScore = () => {
@@ -92,9 +106,9 @@ const drawBestScore = () => {
 
 const gameOver = () => {
   if (
-    snake[0][0] > 49 ||
+    snake[0][0] > 24 ||
     snake[0][0] < 0 ||
-    snake[0][1] > 49 ||
+    snake[0][1] > 24 ||
     snake[0][1] < 0
   ) {
     return true;
@@ -145,8 +159,8 @@ const updateSnakePosition = () => {
 const generateApple = () => {
   score = score + 10;
   const [x, y] = [
-    Math.trunc(Math.random() * 49),
-    Math.trunc(Math.random() * 49),
+    Math.trunc(Math.random() * 24),
+    Math.trunc(Math.random() * 24),
   ];
   apple = [x, y];
   for (let body of snake) {
@@ -218,7 +232,7 @@ const addBreakButton = ()=> {
 
 startGame.addEventListener("click", (event) => {
   addBreakButton();
-
+toto();
 
     /*ctx.clearRect(0, 0, canvas.width, canvas.height);*/
 

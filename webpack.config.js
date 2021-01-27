@@ -6,6 +6,7 @@ const copyWebpackPlugin = require("copy-webpack-plugin");
 module.exports = {
   entry: {
     main: path.join(__dirname, "src/index.js"),
+    fruits:path.join(__dirname, "src/assets/javascripts/fruits.js"),
   },
   output: {
     path: path.join(__dirname, "dist"),
@@ -59,7 +60,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename:"index.html",
       template:path.join(__dirname, "./src/index.html"),
-      chunks:["main"]
+      chunks:["main","fruits"]
     }),
    
   ],
