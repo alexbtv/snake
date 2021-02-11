@@ -1,7 +1,9 @@
 import "./assets/styles/styles.scss";
-import {toto} from './assets/javascripts/fruits';
+import { toto } from "./assets/javascripts/fruits";
 
-import img from './assets/images/pomme.png';
+import { openModal } from "./assets/javascripts/modal.js";
+
+import img from "./assets/images/pomme.png";
 
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
@@ -11,20 +13,19 @@ const bestScoreArea = document.querySelector(".best-score");
 const startGame = document.querySelector(".btn-start");
 
 const appleImg = new Image();
-appleImg.src=img;
+appleImg.src = img;
 
-appleImg.onload = ()=>{
+appleImg.onload = () => {
   //ctx.drawImage(appleImg, apple[0] * gridElem,apple[1] * gridElem, gridElem,gridElem);
-}
+};
 
+const breakGame = document.createElement("button");
+breakGame.classList.add("btn-stop");
+breakGame.innerText = "BREAK";
 
-const breakGame = document.createElement('button');
-breakGame.classList.add('btn-stop');
-breakGame.innerText="BREAK";
+let inProgress = 0;
 
-let inProgress=0;
-
-const play=document.querySelector(".play");
+const play = document.querySelector(".play");
 
 let speed = 900;
 
@@ -42,7 +43,6 @@ let direction = "e";
 let score = 0;
 
 let requestId = null;
-
 
 window.addEventListener("keydown", (event) => {
   console.log(event);
@@ -80,11 +80,16 @@ const drawSnake = () => {
 };
 
 const drawApple = () => {
-  console.log("je suis la");
   //ctx.fillStyle = "red";
- // ctx.fillRect(apple[0] * gridElem, apple[1] * gridElem, gridElem, gridElem);
+  // ctx.fillRect(apple[0] * gridElem, apple[1] * gridElem, gridElem, gridElem);
 
-    ctx.drawImage(appleImg, apple[0] * gridElem,apple[1] * gridElem, gridElem,gridElem);
+  ctx.drawImage(
+    appleImg,
+    apple[0] * gridElem,
+    apple[1] * gridElem,
+    gridElem,
+    gridElem
+  );
 };
 
 const drawScore = () => {
@@ -179,21 +184,20 @@ const initCanvas = () => {
 };
 
 const move = () => {
-
-  if (!updateSnakePosition() && inProgress===0) {
+  if (!updateSnakePosition() && inProgress === 0) {
     initCanvas();
     setTimeout(() => {
       requestId = requestAnimationFrame(move);
     }, 1000 - speed);
-  } else if (!updateSnakePosition() && inProgress===1) {
+  } else if (!updateSnakePosition() && inProgress === 1) {
     window.cancelAnimationFrame(requestId);
   } else {
-    alert("Perdu !");
-    reinitGame();
+   const result = openModal(" YOU LOSE !!!!");
+   reinitGame();
   }
 };
 
-const reinitGame= ()=>{
+const reinitGame = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   initCanvas();
   snake = [
@@ -201,40 +205,39 @@ const reinitGame= ()=>{
     [8, 9],
     [7, 9],
   ];
-  
+
   apple = [5, 5];
-  
+
   direction = "e";
-  
+
   score = 0;
   deleteBreakButton();
-}
+};
 
 initCanvas();
 
-const deleteBreakButton = ()=>{ 
+const deleteBreakButton = () => {
   play.removeChild(breakGame);
-  play.append(startGame)
+  play.append(startGame);
 };
 
-const addBreakButton = ()=> {
-  inProgress=0;
+const addBreakButton = () => {
+  inProgress = 0;
   play.append(breakGame);
   breakGame.addEventListener("click", (event2) => {
     event2.stopImmediatePropagation();
-    inProgress=1;
+    inProgress = 1;
     console.log(startGame);
     deleteBreakButton();
-  })
+  });
   play.removeChild(startGame);
-}
-
+};
 
 startGame.addEventListener("click", (event) => {
   addBreakButton();
-toto();
+  toto();
 
-    /*ctx.clearRect(0, 0, canvas.width, canvas.height);*/
+  /*ctx.clearRect(0, 0, canvas.width, canvas.height);*/
 
-    requestId = requestAnimationFrame(move);
+  requestId = requestAnimationFrame(move);
 });

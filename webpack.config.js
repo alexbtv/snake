@@ -66,7 +66,7 @@ module.exports = {
   ],
   stats: "minimal",
   devtool: "source-map",
-  mode: "development",
+  mode: "production",
   devServer: {
     open: false,
     contentBase: "./dist",
