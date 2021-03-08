@@ -28,6 +28,7 @@ let inProgress = 0;
 const play = document.querySelector(".play");
 
 let speed = 900;
+let speedLevel=1;
 
 const gridElem = 20; //500*500
 let snake = [
@@ -96,7 +97,7 @@ const drawScore = () => {
   scoreArea.innerHTML = `<h1>SCORE</h1>
   <p>${score}</p>
   <h3>Speed</h3>
-  <p>1</p>`;
+  <p>${speedLevel}</p>`;
 };
 
 const drawBestScore = () => {
@@ -163,6 +164,10 @@ const updateSnakePosition = () => {
 
 const generateApple = () => {
   score = score + 10;
+  if (speedLevel===score/50){
+    speedLevel++;
+    console.log("level = " + speedLevel);
+  }
   const [x, y] = [
     Math.trunc(Math.random() * 24),
     Math.trunc(Math.random() * 24),
@@ -184,11 +189,12 @@ const initCanvas = () => {
 };
 
 const move = () => {
+
   if (!updateSnakePosition() && inProgress === 0) {
     initCanvas();
     setTimeout(() => {
       requestId = requestAnimationFrame(move);
-    }, 1000 - speed);
+    }, 1000 - speed-(speedLevel*2));
   } else if (!updateSnakePosition() && inProgress === 1) {
     window.cancelAnimationFrame(requestId);
   } else {
@@ -211,6 +217,7 @@ const reinitGame = () => {
   direction = "e";
 
   score = 0;
+  speedLevel=1;
   deleteBreakButton();
 };
 
@@ -235,7 +242,6 @@ const addBreakButton = () => {
 
 startGame.addEventListener("click", (event) => {
   addBreakButton();
-  toto();
 
   /*ctx.clearRect(0, 0, canvas.width, canvas.height);*/
 
